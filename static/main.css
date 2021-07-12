@@ -34,3 +34,13 @@ td {
 #content {
     width: 70%;
 }
+
+footer {
+    position: relative;
+}
+.copyright{
+    margin: 0 auto;
+     text-align: center;
+    bottom: 0;
+    width: 400px;
+}
