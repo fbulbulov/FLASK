@@ -1,3 +1,4 @@
+import re
 from flask import Flask, render_template, url_for,request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -35,7 +36,7 @@ def index():
 
 
 
-@app.route('/delete/<int:id')
+@app.route('/delete/<int:id>')
 def delete(id):
     task_to_delete=Todo.query.get_or_404(id)
     try:
@@ -43,9 +44,26 @@ def delete(id):
         db.session.commit()
         return redirect('/')
     except:
-        return 'There was issue on deleting your entry'
+        return 'There was issue deleting your entry'
+
+
+@app.route('/update/<int:id>', methods=['GET','POST'])
+def update(id):
+    
+    task = Todo.query.get_or_404(id)
+    if request.method=='POST':
+        task.content=request.form['content']
+    
+    try:
+        db.session.commit()
+        return redirect('/')
+    
+    except:
+        return 'There was issue updating your entry'
+    else:
+        return render_template('update.html', task=task)
 
 if __name__=="__main__":
     app.run(debug=True)
 
-#print ()
+
